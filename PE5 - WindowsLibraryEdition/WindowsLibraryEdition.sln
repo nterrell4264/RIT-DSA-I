@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PE5 - WindowsLibraryEdition", "PE5 - WindowsLibraryEdition\PE5 - WindowsLibraryEdition.vcxproj", "{60EA3125-A8B1-4DC5-94D7-BEEE2C821EEC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowsLibraryEdition", "PE5 - WindowsLibraryEdition\PE5 - WindowsLibraryEdition.vcxproj", "{60EA3125-A8B1-4DC5-94D7-BEEE2C821EEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

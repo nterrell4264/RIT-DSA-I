@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PE7 - Pointers", "PE7 - Pointers\PE7 - Pointers.vcxproj", "{7DAFF9CC-4F10-460D-BA26-80557E73D498}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FingerPoint", "PE7 - Pointers\PE7 - Pointers.vcxproj", "{7DAFF9CC-4F10-460D-BA26-80557E73D498}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

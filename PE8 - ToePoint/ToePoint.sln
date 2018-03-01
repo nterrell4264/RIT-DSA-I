@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PE8 - ToePoint", "PE8 - ToePoint\PE8 - ToePoint.vcxproj", "{8F883A61-A7F9-4655-8D00-37982FA07A3A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ToePoint", "PE8 - ToePoint\PE8 - ToePoint.vcxproj", "{8F883A61-A7F9-4655-8D00-37982FA07A3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
