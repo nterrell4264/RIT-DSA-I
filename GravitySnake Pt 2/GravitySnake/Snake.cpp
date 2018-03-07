@@ -2,31 +2,25 @@
 #include "stdafx.h"
 #include "snake.h"
 #include "conio.h"
-//SFML
-#define SFML_STATIC
-#include <SFML\Window.hpp>
-#include <SFML\Graphics.hpp>
-using namespace sf;
 #pragma endregion
 
 #pragma region variables
-float32 timeStep = 1 / 600.0f;
+float32 timeStep = 1 / 2000.0f;
 int32 velocityIterations = 6;
 int32 positionIterations = 2;
 #pragma endregion
 
 void update(b2World& world) {
-	processInput();
 	world.Step(timeStep, velocityIterations, positionIterations);
 }
 
-void processInput() {
-	void(*force)(b2Body& player);
+void processInput(b2Body& snake) {
+	void(*force)(b2Body& player) = nullptr;
 	if (Keyboard::isKeyPressed(Keyboard::Up)) force = ApplyForceUp;
 	if (Keyboard::isKeyPressed(Keyboard::Down)) force = ApplyForceDown;
 	if (Keyboard::isKeyPressed(Keyboard::Right)) force = ApplyForceRight;
 	if (Keyboard::isKeyPressed(Keyboard::Left)) force = ApplyForceLeft;
-	//force(snake);
+	if(force != nullptr) force(snake);
 }
 void ReverseGravity(b2World& world) {
 	b2Vec2 reverse = world.GetGravity();
@@ -79,28 +73,34 @@ void StopMoving(b2Body& player) {
 	player.SetLinearVelocity(b2Vec2(0, 0));
 }
 
-void display(b2Body& snake, b2Body& target) {
-	RenderWindow window(VideoMode(800, 600), "Gravity Snake");
+void display(RenderWindow& window, b2Body& snake, b2Body& target, int hits, int score) {
 	Event event;
-	while (window.pollEvent(event))
-	{
-		if (event.type == Event::Closed)
-			window.close();
-	}
-	CircleShape snakehead(25);
+	window.pollEvent(event);
+	if (event.type == Event::Closed)
+		window.close();
+	CircleShape snakehead(12);
 	snakehead.setFillColor(Color(0, 191, 0));
-	snakehead.setPosition(Vector2f(snake.GetPosition().x, snake.GetPosition().y));
+	//snakehead.setPosition(Vector2f(snake.GetPosition().x * 10, snake.GetPosition().y * -10));
+	snakehead.setPosition(Vector2f((snake.GetPosition().x + 5) * 40, (snake.GetPosition().y - 5) * -40));
 
-	RectangleShape goal(Vector2f(30, 30));
-	goal.setFillColor(Color(128, 63, 63));
-	goal.setPosition(Vector2f(target.GetPosition().x, target.GetPosition().y));
+	RectangleShape goal(Vector2f(12, 12));
+	goal.setFillColor(Color(191, 127, 127));
+	//goal.setPosition(Vector2f(target.GetPosition().x * 10, target.GetPosition().y * -10));
+	goal.setPosition(Vector2f((target.GetPosition().x + 5) * 40, (target.GetPosition().y - 5) * -40));
+
+	/*Text hitText();
+
+	Text scoreText();
+	scoreText.setPosition(Vector2f(0, 5));*/
 
 	window.clear(Color::Black);
 	window.draw(snakehead);
 	window.draw(goal);
+	//window.draw(hitText);
+	//window.draw(scoreText);
 	window.display();
-	/*b2Vec2 prPos = snake.GetPosition();
+	b2Vec2 prPos = snake.GetPosition();
 	printf("Snake is at %f, %f; ", prPos.x, prPos.y);
 	prPos = target.GetPosition();
-	printf("Target is at %f, %f\n", prPos.x, prPos.y);*/
+	printf("Target is at %f, %f\n", prPos.x, prPos.y);
 }
