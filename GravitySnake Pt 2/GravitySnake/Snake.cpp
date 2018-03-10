@@ -80,17 +80,17 @@ void display(RenderWindow& window, b2Body& snake, b2Body& target, int hits, int 
 		window.close();
 	CircleShape snakehead(12);
 	snakehead.setFillColor(Color(0, 191, 0));
-	//snakehead.setPosition(Vector2f(snake.GetPosition().x * 10, snake.GetPosition().y * -10));
 	snakehead.setPosition(Vector2f((snake.GetPosition().x + 5) * 40, (snake.GetPosition().y - 5) * -40));
 
 	RectangleShape goal(Vector2f(12, 12));
 	goal.setFillColor(Color(191, 127, 127));
-	//goal.setPosition(Vector2f(target.GetPosition().x * 10, target.GetPosition().y * -10));
 	goal.setPosition(Vector2f((target.GetPosition().x + 5) * 40, (target.GetPosition().y - 5) * -40));
 
 	/*Text hitText();
+	hitText.setString(hits);
 
 	Text scoreText();
+	scoreText.setString(score);
 	scoreText.setPosition(Vector2f(0, 5));*/
 
 	window.clear(Color::Black);
