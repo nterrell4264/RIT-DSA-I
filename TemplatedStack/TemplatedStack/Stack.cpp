@@ -16,13 +16,14 @@ Stack::~Stack()
 template<class T>
 Stack<T>::Stack(const Stack& other)
 {
-
+	data = other.data;
 }
 
 template<class T>
 Stack<T> Stack<T>::operator=(const Stack & other)
 {
-	return Stack();
+	if (this != &other) data = other.data;
+	return *this;
 }
 
 template<class T>
