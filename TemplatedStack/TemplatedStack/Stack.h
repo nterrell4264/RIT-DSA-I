@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream> //Used in .cpp and in the main file
+using namespace std;
+
 template<class T>
 class Stack
 {

@@ -63,6 +63,7 @@ T* Stack<T>::Pop()
 				delete smallArray;
 			}
 		}
+		return popped;
 	}
 }
 
@@ -81,5 +82,8 @@ bool Stack<T>::IsEmpty()
 template<class T>
 void Stack<T>::Print()
 {
-
+	cout << "The stack contains the following items:" << endl;
+	for (int i = 0; i < size; i++) {
+		cout << i + 1 << ": " << *(data[i]) << endl;
+	}
 }
