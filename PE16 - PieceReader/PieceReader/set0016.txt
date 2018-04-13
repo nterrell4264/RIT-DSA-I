@@ -1,0 +1,1 @@
+"A suspended ceiling." {900, 1400, 0}
