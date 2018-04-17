@@ -22,6 +22,7 @@ public:
 	T Pop_Back();
 	T Pop_Front();
 	int GetSize();
+	int GetDataSize();
 	bool IsEmpty();
 	void Print();
 };
@@ -55,7 +56,7 @@ template<class T>
 Stack<T>::Stack(Stack& other)
 {
 	size = other.GetSize();
-	while (size / dataSize > 0) dataSize *= 2;
+	dataSize = other.GetDataSize();
 	data = new T[dataSize];
 	for (int i = 0; i < size; i++) 
 		data[i] = other[i];
@@ -64,8 +65,13 @@ Stack<T>::Stack(Stack& other)
 template<class T>
 Stack<T>& Stack<T>::operator=(Stack& other)
 {
-	if (this != &other) {
+	if (this != &other) { //Won't copy to itself to save time/it will fail
 		delete[] data;
+		size = other.GetSize();
+		dataSize = other.GetDataSize();
+		data = new T[dataSize];
+		for (int i = 0; i < size; i++)
+			data[i] = other[i];
 	}
 	return *this;
 }
@@ -89,7 +95,7 @@ void Stack<T>::Push_Back(T item)
 			bigArray[i] = data[i];
 		}
 		dataSize *= 2;
-		//Makes data the only pointer to the new array
+		//Makes data the only pointer to the new array (bigArray goes out of scope)
 		delete[] data;
 		data = bigArray;
 	}
@@ -105,11 +111,11 @@ void Stack<T>::Push_Front(T item)
 			bigArray[i] = data[i];
 		}
 		dataSize *= 2;
-		//Makes data the only pointer to the new array
+		//Makes data the only pointer to the new array (bigArray goes out of scope)
 		delete[] data;
 		data = bigArray;
 	}
-	for (int i = size; i > 0; i--) data[i] = data[i - 1];
+	for (int i = size; i > 0; i--) data[i] = data[i - 1]; //Pushes data back
 	data[0] = item;
 }
 
@@ -128,7 +134,7 @@ T Stack<T>::Pop_Back()
 				for (int i = 0; i < dataSize; i++) {
 					smallArray[i] = data[i];
 				}
-				//Makes data the only pointer to the new array
+				//Makes data the only pointer to the new array (smallArray goes out of scope)
 				delete[] data;
 				data = smallArray;
 			}
@@ -142,8 +148,8 @@ T Stack<T>::Pop_Front()
 	if (!IsEmpty()) {
 		T popped = data[0];
 		size--;
-		for (int i = 0; i < size; i++) data[i] = data[i + 1];
-		data[size] = T();
+		for (int i = 0; i < size; i++) data[i] = data[i + 1]; //Moves data forward
+		data[size] = T(); //Calls default constructor to nullify data
 		if (!IsEmpty()) {
 			if (size < dataSize / 2) { //Resizes array if it's small enough for it
 				//Creates smaller array with half the size
@@ -152,7 +158,7 @@ T Stack<T>::Pop_Front()
 				for (int i = 0; i < dataSize; i++) {
 					smallArray[i] = data[i];
 				}
-				//Makes data the only pointer to the new array
+				//Makes data the only pointer to the new array (smallArray goes out of scope)
 				delete[] data;
 				data = smallArray;
 			}
@@ -165,6 +171,11 @@ template<class T>
 int Stack<T>::GetSize()
 {
 	return size;
+}
+template<class T>
+int Stack<T>::GetDataSize()
+{
+	return dataSize;
 }
 template<class T>
 bool Stack<T>::IsEmpty()
