@@ -5,93 +5,150 @@ using namespace std;
 template<class T>
 class Stack
 {
+private:
+	//Variables
+	T* data;
+	int dataSize = 4;
+	int size = 0;
 public:
 	Stack();
 	Stack(int stackSize);
 	~Stack();
-	Stack(const Stack& other);
-	Stack<T> operator=(const Stack & other);
-	T* operator[](int index);
-	void Push(T* item);
-	T* Pop();
+	Stack(Stack& other);
+	Stack<T>& operator=(Stack& other);
+	T& operator[](int index);
+	void Push_Back(T item);
+	void Push_Front(T item);
+	T Pop_Back();
+	T Pop_Front();
 	int GetSize();
 	bool IsEmpty();
 	void Print();
-private:
-	//Variables
-	T** data;
-	int dataSize = 4;
-	int size = 0;
 };
 
 #pragma region Construct/Destruct/Copy/Index
 template<class T>
 Stack<T>::Stack()
 {
-	data = new T*[dataSize];
+	data = new T[4];
 }
 template<class T>
 Stack<T>::Stack(int stackSize)
 {
-	if (stackSize > 0) data = new T*[stackSize];
-	else data = new T*[1];
+	if (stackSize > 0) {
+		data = new T[stackSize];
+		dataSize = stackSize;
+	}
+	else {
+		data = new T[4];
+	}
 }
 template<class T>
 Stack<T>::~Stack()
 {
 	delete[] data;
+	data = nullptr;
 }
 
 //Copy constructor
 template<class T>
-Stack<T>::Stack(const Stack& other)
+Stack<T>::Stack(Stack& other)
 {
-	data = other.data;
+	size = other.GetSize();
+	while (size / dataSize > 0) dataSize *= 2;
+	data = new T[dataSize];
+	for (int i = 0; i < size; i++) 
+		data[i] = other[i];
 }
 //Copy assignment
 template<class T>
-Stack<T> Stack<T>::operator=(const Stack & other)
+Stack<T>& Stack<T>::operator=(Stack& other)
 {
-	if (this != &other) data = other.data;
+	if (this != &other) {
+		delete[] data;
+	}
 	return *this;
 }
 
 //Indexer
 template<class T>
-T* Stack<T>::operator[](int index) {
-	return (*data)[index];
+T& Stack<T>::operator[](int index) {
+	return data[index];
 }
 #pragma endregion
 #pragma region Methods
 template<class T>
-void Stack<T>::Push(T* item)
+void Stack<T>::Push_Back(T item)
 {
 	data[size] = item;
 	size++;
 	if (size == dataSize) { //Resizes array if it's full now
 		//Creates larger array with double the size
-		T** bigArray = new T*[dataSize * 2];
+		T* bigArray = new T[(dataSize * 2)];
 		for (int i = 0; i < dataSize; i++) {
 			bigArray[i] = data[i];
 		}
 		dataSize *= 2;
 		//Makes data the only pointer to the new array
-		delete data;
+		delete[] data;
 		data = bigArray;
-		delete bigArray;
 	}
 }
 template<class T>
-T* Stack<T>::Pop()
+void Stack<T>::Push_Front(T item)
 {
-	if (size > 0) {
+	size++;
+	if (size == dataSize) { //Resizes array if it's full now
+		//Creates larger array with double the size
+		T* bigArray = new T[(dataSize * 2)];
+		for (int i = 0; i < dataSize; i++) {
+			bigArray[i] = data[i];
+		}
+		dataSize *= 2;
+		//Makes data the only pointer to the new array
+		delete[] data;
+		data = bigArray;
+	}
+	for (int i = size; i > 0; i--) data[i] = data[i - 1];
+	data[0] = item;
+}
+
+template<class T>
+T Stack<T>::Pop_Back()
+{
+	if (!IsEmpty()) {
 		size--;
-		T* popped = data[size];
+		T popped = data[size];
+		data[size] = T();
 		if (!IsEmpty()) {
-			if (size == dataSize / 2) { //Resizes array if it's small enough for it
+			if (size < dataSize / 2) { //Resizes array if it's small enough for it
 				//Creates smaller array with half the size
 				dataSize /= 2;
-				T** smallArray = new T*[dataSize];
+				T* smallArray = new T[dataSize];
+				for (int i = 0; i < dataSize; i++) {
+					smallArray[i] = data[i];
+				}
+				//Makes data the only pointer to the new array
+				delete[] data;
+				data = smallArray;
+			}
+		}
+		return popped;
+	}
+}
+template<class T>
+T Stack<T>::Pop_Front()
+{
+	if (!IsEmpty()) {
+		T popped = data[0];
+		size--;
+		for (int i = 0; i < size; i++) data[i] = data[i + 1];
+		data[size] = T();
+		if (!IsEmpty()) {
+			if (size < dataSize / 2) { //Resizes array if it's small enough for it
+				//Creates smaller array with half the size
+				dataSize /= 2;
+				T* smallArray = new T[dataSize];
 				for (int i = 0; i < dataSize; i++) {
 					smallArray[i] = data[i];
 				}
@@ -118,8 +175,10 @@ bool Stack<T>::IsEmpty()
 template<class T>
 void Stack<T>::Print()
 {
+	cout << "Stack contains:" << endl;
 	for (int i = 0; i < size; i++) {
-		cout << i + 1 << ": " << *(data[i]) << endl;
+		cout << i + 1 << ": ";
+		cout << data[i] << endl;
 	}
 }
 #pragma endregion
