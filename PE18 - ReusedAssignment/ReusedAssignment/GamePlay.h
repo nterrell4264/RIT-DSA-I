@@ -2,6 +2,7 @@
 
 #include <string>
 #include <iostream>
+#include <mutex>
 using namespace std;
 
 class GamePlay
@@ -12,6 +13,6 @@ public:
 
 	string name;
 
-	void Update();
+	void Update(mutex mtx);
 };
 
