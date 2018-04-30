@@ -13,6 +13,7 @@ public:
 
 	string name;
 
-	void Update(mutex mtx);
+	void Update();
+	//void Update(mutex mtx);
 };
 
